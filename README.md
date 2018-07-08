@@ -51,10 +51,11 @@ services:
     ports:
       - "3306:3306"
     environment:
-      - MYSQL_DATABASE=openvpn-admin
+      # Configuration here must match the settings of laravel
+      - MYSQL_DATABASE=homestead
       - MYSQL_ROOT_PASSWORD=root_pass
-      - MYSQL_USER=lara
-      - MYSQL_PASSWORD=lara_pass
+      - MYSQL_USER=homestead
+      - MYSQL_PASSWORD=secret
     volumes:
       - ./databases/mysql:/var/lib/mysql
       - ./logs/mysql:/var/log/mysql
@@ -108,9 +109,22 @@ services:
       - ./vendor:/app/vedonr
 ```
 
+Run this composition of containers:
+
+    docker-compuse up -d
+
+But how to update the Laravel image? That's easy, if you use `:latest`
+tag of docker image the you just need:
+
+    docker-composer pull
+    docker-composer up -d
+
+And your of laravel container will be recreated if new version of
+Laravel in repository.
+
 ## Almost done
 
-Now you need just open this url http://localhost, and you'll see the Laravel.
+Now you need just open this url http://localhost, and you'll see the Laravel magic.
 
 ## Links
 
