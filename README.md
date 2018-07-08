@@ -66,15 +66,14 @@ services:
     ports:
       - 80:80
     environment:
-      # List of all default environmets of Laravel
       - APP_NAME=Laravel
       - APP_ENV=local
-      - APP_KEY=
+      - APP_KEY=base64:XFmYKmOH9JhC4egs5y7h9hKnACECuRpVvybd8gaU1EA=
       - APP_DEBUG=true
       - APP_URL=http://localhost
       - LOG_CHANNEL=stack
       - DB_CONNECTION=mysql
-      - DB_HOST=127.0.0.1
+      - DB_HOST=mysql
       - DB_PORT=3306
       - DB_DATABASE=homestead
       - DB_USERNAME=homestead
@@ -99,17 +98,20 @@ services:
       - PUSHER_APP_CLUSTER=mt1
       - MIX_PUSHER_APP_KEY="${PUSHER_APP_KEY}"
       - MIX_PUSHER_APP_CLUSTER="${PUSHER_APP_CLUSTER}"
-      # Settings of php.ini
-      - PHP_SHORT_OPEN_TAG=On
-      - PHP_ERROR_REPORTING=E_ALL
-      - PHP_DISPLAY_ERRORS=On
-      - PHP_HTML_ERRORS=On
-      - PHP_XDEBUG_ENABLED=true
     volumes:
-      # You need mont `application` folder to the `app` inside container
-      - ./app:/app/app
-      # inside this folder storred the deps downloaded by composer
-      - ./vendor:/app/vedonr
+      - ./laravel/app:/app/app:rw
+      - ./laravel/config:/app/config:rw
+      - ./laravel/database:/app/database:rw
+      - ./laravel/public:/app/public:rw
+      - ./laravel/resources:/app/resources:rw
+      - ./laravel/routes:/app/routes:rw
+      # Required modules for system
+      - ./laravel/vendor:/app/vendor:rw
+      - ./laravel/node_modules:/app/node_modules:rw
+      # Following folders must be writable in container for apache user
+      # chown apache:apache -R storage/ bootstrap/
+      - ./laravel/storage:/app/storage:rw
+      - ./laravel/bootstrap:/app/bootstrap:rw
 ```
 
 Run this composition of containers:
