@@ -49,7 +49,7 @@ services:
   mysql:
     image: mysql:5.7
     ports:
-      - "3306:3306"
+      - 3306:3306
     environment:
       # Configuration here must match the settings of laravel
       - MYSQL_DATABASE=homestead
@@ -62,6 +62,9 @@ services:
 
   laravel:
     image: evilfreelancer/dockavel
+    restart: unless-stopped
+    ports:
+      - 80:80
     environment:
       # List of all default environmets of Laravel
       - APP_NAME=Laravel
