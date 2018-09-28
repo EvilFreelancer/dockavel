@@ -13,7 +13,7 @@ function getTarballs
 
 function getTag
 {
-    echo "$1" | awk -F 'tarball/' '{print $2}'
+    echo "$1" | awk -F 'tarball/' '{print $2}' | sed -r 's/^v(.*)/\1/g'
 }
 
 function checkTag
