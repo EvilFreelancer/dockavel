@@ -8,4 +8,4 @@ RUN apk add --update --no-cache php7-fileinfo \
  && curl -L -o laravel.tar.gz "$LARAVEL_TARGZ/v$LARAVEL_TAG" \
  && tar xfvz laravel.tar.gz -C . --strip-components=1 \
  && rm laravel.tar.gz \
- && composer update
+ && composer install --no-dev
