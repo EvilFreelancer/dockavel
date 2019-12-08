@@ -1,4 +1,4 @@
-FROM evilfreelancer/alpine-apache-php7:php-7.3
+FROM evilfreelancer/alpine-apache-php7:latest
 
 ENV LARAVEL_TAG="6.5.2"
 ENV LARAVEL_TARGZ="https://api.github.com/repos/laravel/laravel/tarball"
