@@ -31,8 +31,7 @@ getTarballs | while read line; do
 #            url=https://download.craftcdn.com/craft/3.0/Craft-$tag.tar.gz
             if curl --output /dev/null --silent --head --fail "$line"; then
                 echo ">>> URL exists: $line"
-                sed -r "s/(LARAVEL_TAG=\")(.*)(\")/\1$tag\3/g" -i ./normal/Dockerfile
-                sed -r "s/(LARAVEL_TAG=\")(.*)(\")/\1$tag\3/g" -i ./xdebug/Dockerfile
+                sed -r "s/(LARAVEL_TAG=\")(.*)(\")/\1$tag\3/g" -i ./Dockerfile
                 git commit -m "Release of Laravel changes to $tag" -a
                 git push
                 git tag "$tag"

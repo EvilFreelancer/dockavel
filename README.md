@@ -9,6 +9,14 @@ some legacy version of Laravel the you need set [required tag](https://hub.docke
 
 ## How to use
 
+### How to enable xdebug
+
+This PHP plugin is already installed into container and can be enabled
+via PHP_XDEBUG_ENABLED environment variable.
+
+All available environment variables of PHP can be found
+[here](https://github.com/EvilFreelancer/alpine-apache-php7).
+
 ### Via Dockerfile
 
 If you want to use this image and you just need to add source code of
@@ -60,6 +68,19 @@ services:
       - ./databases/mysql:/var/lib/mysql
       - ./logs/mysql:/var/log/mysql
 
+  laravel-dev:
+    image: evilfreelancer/dockavel
+    restart: unless-stopped
+    ports:
+      - 81:80
+    environment:
+      - APP_NAME=Develop
+      - APP_ENV=local
+      - APP_DEBUG=true
+      - PHP_XDEBUG_ENABLED=true
+    volumes:
+      - ./laravel:/app:rw
+
   laravel:
     image: evilfreelancer/dockavel
     restart: unless-stopped
@@ -67,9 +88,9 @@ services:
       - 80:80
     environment:
       - APP_NAME=Laravel
-      - APP_ENV=local
+      - APP_ENV=stagging
       - APP_KEY=base64:XFmYKmOH9JhC4egs5y7h9hKnACECuRpVvybd8gaU1EA=
-      - APP_DEBUG=true
+      - APP_DEBUG=false
       - APP_URL=http://localhost
       - LOG_CHANNEL=stack
       - DB_CONNECTION=mysql
