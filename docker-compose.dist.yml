@@ -1,0 +1,12 @@
+version: "3.7"
+
+services:
+
+  dockavel:
+    #image: evilfreelancer/dockavel:latest
+    build:
+      context: .
+    volumes:
+    - ./logs:/var/log/apache2
+    ports:
+    - 80:80
