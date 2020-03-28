@@ -14,9 +14,6 @@ some legacy version of Laravel the you need set [required tag](https://hub.docke
 This PHP plugin is already installed into container and can be enabled
 via PHP_XDEBUG_ENABLED environment variable.
 
-All available environment variables of PHP can be found
-[here](https://github.com/EvilFreelancer/alpine-apache-php7).
-
 ### Via Dockerfile
 
 If you want to use this image and you just need to add source code of
@@ -38,8 +35,7 @@ For building you just need run:
 
     docker build . --tag laravel
 
-By default image [alpine-apache-php7](https://hub.docker.com/r/evilfreelancer/alpine-apache-php7/)
-has `80` port exposed (apache2 here), so you just need plug your local
+By default image has `80` port exposed (apache2 here), so you just need plug your local
 port with port of container together:
 
     docker run -d -p 80:80 laravel
@@ -154,5 +150,4 @@ Now you need just open this url http://localhost, and you'll see the Laravel mag
 
 ## Links
 
-* [alpine-apache-php7](https://hub.docker.com/r/evilfreelancer/alpine-apache-php7/)
 * [Laradock](http://laradock.io/)
