@@ -3,7 +3,7 @@ FROM php:7.4-apache
 # Install tools required for build stage
 RUN apt-get update \
  && apt-get install -fyqq \
-    bash curl wget rsync ca-certificates openssl openssh-client git tzdata openntpd zlib1g-dev \
+    bash curl wget rsync ca-certificates openssl openssh-client git tzdata \
     libxrender1 fontconfig libc6 \
     gnupg binutils-gold autoconf \
     g++ gcc gnupg libgcc1 linux-headers-amd64 make python
@@ -62,18 +62,15 @@ RUN pecl install redis \
  && docker-php-ext-enable redis
 
 # Install xdebug
-RUN pecl install xdebug \
- && docker-php-ext-enable xdebug
+RUN pecl install xdebug
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer \
  && chmod 755 /usr/bin/composer
 
 # Add apache to run and configure
-RUN a2enmod rewrite && a2enmod session && a2enmod session_cookie && a2enmod session_crypto && a2enmod deflate \
- && sed -i "s#^DocumentRoot \".*#DocumentRoot \"/app/public\"#g" /etc/apache2/sites-enabled/000-default.conf \
- && sed -i "s#/var/www/html#/app/public#" /etc/apache2/sites-enabled/000-default.conf \
- && printf "\n<Directory \"/app/public\">\n\tAllowOverride All\n</Directory>\n" >> /etc/apache2/apache2.conf
+RUN a2enmod rewrite && a2enmod session && a2enmod session_cookie && a2enmod session_crypto && a2enmod deflate
+ADD default.conf /etc/apache2/sites-available/000-default.conf
 
 ADD ["entrypoint.sh", "/"]
 
@@ -89,8 +86,11 @@ ENV LARAVEL_TARGZ="https://api.github.com/repos/laravel/laravel/tarball"
 
 RUN curl -L -o laravel.tar.gz "$LARAVEL_TARGZ/v$LARAVEL_TAG" \
  && tar xfvz laravel.tar.gz -C . --strip-components=1 \
+ && chown www-data:www-data . -R \
  && rm laravel.tar.gz \
- && composer install --no-dev
+ && composer install --no-dev \
+ && cp .env.example .env \
+ && ./artisan key:generate
 
 EXPOSE 80
 EXPOSE 443
