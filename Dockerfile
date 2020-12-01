@@ -1,6 +1,6 @@
 FROM evilfreelancer/alpine-apache-php7:latest
 
-ENV LARAVEL_TAG="8.4.3"
+ENV LARAVEL_TAG="8.4.4"
 ENV LARAVEL_TARGZ="https://api.github.com/repos/laravel/laravel/tarball"
 WORKDIR /app
 
